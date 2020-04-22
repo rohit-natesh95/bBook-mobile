@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
@@ -20,8 +21,9 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int READ_REQUEST_CODE = 42;
-    final int READ_FAILURE = 0;
+    private final String TAG = "MainActivity";
+    private final int READ_REQUEST_CODE = 42;
+    private final int READ_FAILURE = 0;
     Button fromCamera;
     Button fromDoc;
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cameraMode(View view) {
-        startActivity(new Intent(this, Ocr.class));
+        startActivity(new Intent(getApplicationContext(), Ocr.class));
     }
 
     public void docMode(View view) {
@@ -56,13 +58,21 @@ public class MainActivity extends AppCompatActivity {
         if (READ_REQUEST_CODE == requestCode && READ_FAILURE != resultCode) {
             Uri uri = resultIntent.getData();
             String filePath = RealPathUtil.getPath(this, uri);
-            getPdfContent(filePath);
+            String data = getPdfContent(filePath);
+            Log.i(TAG, "onActivityResult: Data: " + data);
+            if (data != null) {
+                NearbySender nearbySender = new NearbySender(getApplicationContext());
+                nearbySender.sendData(data);
+                Toast.makeText(getApplicationContext(),
+                        "Document will be sent to device.",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    void getPdfContent(String filePath) {
+    private String getPdfContent(String filePath) {
         try {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             PdfReader pdfReader = new PdfReader(filePath);
             PdfReaderContentParser pdfReaderContentParser = new PdfReaderContentParser(pdfReader);
             TextExtractionStrategy textExtractionStrategy;
@@ -73,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             }
             pdfReader.close();
             sb.append('.');
-            NearbySender nearbySender = new NearbySender(getApplicationContext());
-            nearbySender.sendData(sb.toString().trim(), 0);
+            return sb.toString().trim();
         } catch (Exception | NoClassDefFoundError ignored) {
             Toast.makeText(this, "Could not select file.", Toast.LENGTH_SHORT).show();
+            return null;
         }
     }
 }

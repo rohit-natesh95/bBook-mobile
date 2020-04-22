@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
+import java.util.Objects;
+
 class RealPathUtil {
     @SuppressLint("NewApi")
     static String getPath(final Context context, final Uri uri) {
@@ -48,7 +50,7 @@ class RealPathUtil {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -72,8 +74,8 @@ class RealPathUtil {
         return null;
     }
 
-    public static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
+    private static String getDataColumn(Context context, Uri uri, String selection,
+                                        String[] selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
@@ -95,7 +97,7 @@ class RealPathUtil {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static String getDownloadFilePath(Context context, Uri uri){
+    private static String getDownloadFilePath(Context context, Uri uri) {
         Cursor cursor = null;
         final String[] projection = {
                 MediaStore.MediaColumns.DISPLAY_NAME
@@ -104,39 +106,39 @@ class RealPathUtil {
             cursor = context.getContentResolver().query(uri, projection, null,
                     null, null);
             if (cursor != null && cursor.moveToFirst()) {
-                String fileName=cursor.getString(0);
-                String path =Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName;
-                if (!TextUtils.isEmpty(path)){
+                String fileName = cursor.getString(0);
+                String path = Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName;
+                if (!TextUtils.isEmpty(path)) {
                     return path;
                 }
             }
         } finally {
-            cursor.close();
+            Objects.requireNonNull(cursor).close();
         }
         String id = DocumentsContract.getDocumentId(uri);
         if (id.startsWith("raw:")) {
             return id.replaceFirst("raw:", "");
         }
         Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads"),
-                java.lang.Long.valueOf(id));
+                java.lang.Long.parseLong(id));
 
         return getDataColumn(context, contentUri, null, null);
     }
 
 
-    public static boolean isExternalStorageDocument(Uri uri) {
+    private static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isDownloadsDocument(Uri uri) {
+    private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isMediaDocument(Uri uri) {
+    private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
-    public static boolean isGooglePhotosUri(Uri uri) {
+    private static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 }
