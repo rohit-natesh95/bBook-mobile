@@ -4,44 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/fromDoc"
-        android:layout_width="match_parent"
-        android:layout_height="296dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="40dp"
+        android:background="#000000"
+        android:contentDescription="Send information by selecting a document"
         android:onClick="docMode"
         android:text="Document"
-        app:layout_constraintBottom_toTopOf="@+id/textTitle"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fromCamera"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_marginBottom="40dp"
+        android:background="#000000"
+        android:contentDescription="Send information by taking a picture"
+        android:onClick="cameraMode"
+        android:text="Camera"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/fromCamera"
-        android:layout_width="match_parent"
-        android:layout_height="293dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="cameraMode"
-        android:text="Camera"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        tools:layout_editor_absoluteX="4dp" />
 
     <TextView
-        android:id="@+id/textTitle"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
+        android:accessibilityLiveRegion="none"
+        android:text="bBook Mobile"
         android:textAlignment="center"
-        android:text="bBook"
         android:textColor="#000"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/fromCamera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/fromDoc" />
 
     <!--Button
         android:id="@+id/button2"

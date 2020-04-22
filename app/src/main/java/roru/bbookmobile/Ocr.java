@@ -1,13 +1,8 @@
 package roru.bbookmobile;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
@@ -28,13 +23,11 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
-import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
-import java.util.List;
 import java.util.Locale;
 
 
-public class ocrClass extends Activity {
+public class Ocr extends Activity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();

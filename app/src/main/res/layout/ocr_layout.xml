@@ -11,11 +11,15 @@
         android:layout_width="415dp"
         android:layout_height="206dp"
         android:layout_marginBottom="16dp"
-        android:text="Button"
+        android:background="#000000"
+        android:backgroundTint="#FFFFFF"
+        android:contentDescription="Send the data to bBook device"
+        android:onClick="process"
+        android:text="Send data"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
-        android:onClick="process"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
