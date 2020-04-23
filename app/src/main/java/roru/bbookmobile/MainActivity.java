@@ -1,6 +1,7 @@
 package roru.bbookmobile;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
@@ -35,9 +37,23 @@ public class MainActivity extends AppCompatActivity {
         AccessibilityManager accessibilityManager = (AccessibilityManager) getApplicationContext()
                 .getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (!Objects.requireNonNull(accessibilityManager).isTouchExplorationEnabled()) {
-            Toast.makeText(getApplicationContext(), "Please enable Accessibility for better usage.",
-                    Toast.LENGTH_LONG).show();
-            startActivityForResult(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS), 0);
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Enable accessibility?")
+                    .setMessage("Enabling accessibility can assist you in using bBook Mobile.")
+                    .setNegativeButton("Ignore", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).setPositiveButton("Go to settings", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivityForResult(
+                                    new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS),
+                                    0);
+                        }
+                    }
+            ).show();
         }
     }
 
@@ -67,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 nearbySender.sendData(data);
                 Toast.makeText(getApplicationContext(),
                         "Document will be sent to device.",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -87,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             sb.append('.');
             return sb.toString().trim();
         } catch (Exception | NoClassDefFoundError ignored) {
-            Toast.makeText(this, "Could not select file.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Could not select file.", Toast.LENGTH_LONG).show();
             return null;
         }
     }

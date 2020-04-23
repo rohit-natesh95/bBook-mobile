@@ -24,7 +24,6 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.util.Objects;
 
 
-
 public class Ocr extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private final String TAG = "ocrClass";
@@ -79,7 +78,7 @@ public class Ocr extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(getApplicationContext(),
                                         "Text could not be extracted. Try again!",
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_LONG).show();
                                 Log.i(TAG, "Failed to extract text");
                             }
                         }
@@ -92,12 +91,12 @@ public class Ocr extends AppCompatActivity {
         if (resultText.length() > 0) {
             Toast.makeText(getApplicationContext(),
                     "Text extracted and will be sent to device.",
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_LONG).show();
             NearbySender nearbySender = new NearbySender(getApplicationContext());
             nearbySender.sendData(resultText);
         } else {
             Toast.makeText(getApplicationContext(),
-                    "Text could not be extracted. Try again!", Toast.LENGTH_SHORT).show();
+                    "Text could not be extracted. Try again!", Toast.LENGTH_LONG).show();
         }
         finish();
     }
