@@ -5,11 +5,9 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
 import java.util.Objects;
@@ -96,7 +94,6 @@ class RealPathUtil {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static String getDownloadFilePath(Context context, Uri uri) {
         Cursor cursor = null;
         final String[] projection = {

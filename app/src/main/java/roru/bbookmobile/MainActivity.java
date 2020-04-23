@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
@@ -21,9 +22,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = "MainActivity";
     private final int READ_REQUEST_CODE = 42;
-    private final int READ_FAILURE = 0;
     Button fromCamera;
     Button fromDoc;
 
@@ -55,10 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
+        super.onActivityResult(requestCode, resultCode, resultIntent);
+        int READ_FAILURE = 0;
         if (READ_REQUEST_CODE == requestCode && READ_FAILURE != resultCode) {
             Uri uri = resultIntent.getData();
             String filePath = RealPathUtil.getPath(this, uri);
             String data = getPdfContent(filePath);
+            String TAG = "MainActivity";
             Log.i(TAG, "onActivityResult: Data: " + data);
             if (data != null) {
                 NearbySender nearbySender = new NearbySender(getApplicationContext());
